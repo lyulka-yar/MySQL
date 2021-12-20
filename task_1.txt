@@ -1,0 +1,98 @@
+# найти все машины старше 2000 г
+
+select model, year
+from cars
+where year > 2000;
+
+# найти все машины млатше 2015 г
+
+select model, year
+from cars
+where year < 2015;
+
+# найти все машины 2008, 2009, 2010 годов
+
+select model, year
+from cars
+where year between 2008 and 2010;
+
+# найти все машины не с этих годов 2008, 2009, 2010 годов
+
+select model, year
+from cars
+where not year between 2008 and 2010;
+
+# найти все машины год которых совпадает с ценой
+
+select model, year
+from cars
+where year = price;
+
+# найти все машины bmw старше 2014 года
+select model, year
+from cars
+where model like 'bmw'
+  and year > 2014;
+
+# найти все машины audi младше 2014 года
+
+select model, year
+from cars
+where model like 'audi'
+  and year < 2014;
+
+# найти первые 5 машин
+
+select model
+from cars
+limit 5;
+
+# найти последнии 5 машин
+
+select model
+from cars
+limit 5 offset 212;
+#
+# найти среднее арифметическое цен машин модели KIA
+
+select avg(price) as 'average'
+from cars
+where model like 'kia';
+
+# найти среднее арифметическое цен каждой машины
+
+select model, avg(price) as 'average'
+from cars
+group by model;
+
+# посчитать количество каждой марки машин
+select model, count(model) as 'amount'
+from cars
+group by model;
+
+# найти марку машины количество которых больше всего
+
+select model, count(model) as 'amount'
+from cars
+group by model
+order by amount desc limit 1;
+
+# найти все машины в модели которых вторая и предпоследняя буква "а"
+
+select model from cars
+where model like '_a%a_';
+
+# найти все машины модели которых больше 8 символов
+
+select model from cars
+where length(model) > 8;
+
+# ***найти машины цена которых больше чем цена среднего арифметического всех машин
+
+# select (select avg(price) from cars) as 'avgPriceAll',
+#        select model, max(price) from cars
+#        );
+select (select avg(price) from cars) as 'avgAllCars',
+       (select max(price) from cars
+           where price > avgAllCars) as 'max';
+
